@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguratio
 import org.springframework.boot.runApplication
 import org.springframework.boot.web.embedded.tomcat.TomcatProtocolHandlerCustomizer
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.core.task.AsyncTaskExecutor
 import org.springframework.core.task.support.TaskExecutorAdapter
 import org.springframework.graphql.data.method.annotation.QueryMapping
@@ -20,15 +21,18 @@ fun main(args: Array<String>) {
     runApplication<LoomgraphqlApplication>(*args)
 }
 
-@Bean(TaskExecutionAutoConfiguration.APPLICATION_TASK_EXECUTOR_BEAN_NAME)
-fun asyncTaskExecutor(): AsyncTaskExecutor? {
-    return TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor())
-}
+@Configuration
+class LoomConfig {
+    @Bean(TaskExecutionAutoConfiguration.APPLICATION_TASK_EXECUTOR_BEAN_NAME)
+    fun asyncTaskExecutor(): AsyncTaskExecutor? {
+        return TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor())
+    }
 
-@Bean
-fun protocolHandlerVirtualThreadExecutorCustomizer(): TomcatProtocolHandlerCustomizer<*>? {
-    return TomcatProtocolHandlerCustomizer { protocolHandler: ProtocolHandler ->
-        protocolHandler.executor = Executors.newVirtualThreadPerTaskExecutor()
+    @Bean
+    fun protocolHandlerVirtualThreadExecutorCustomizer(): TomcatProtocolHandlerCustomizer<*>? {
+        return TomcatProtocolHandlerCustomizer { protocolHandler: ProtocolHandler ->
+            protocolHandler.executor = Executors.newVirtualThreadPerTaskExecutor()
+        }
     }
 }
 
