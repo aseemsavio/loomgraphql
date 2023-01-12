@@ -37,6 +37,12 @@ tasks.withType<JavaExec> {
     jvmArgs = mutableListOf(preview)
 }
 
+/*graalvmNative {
+    binaries {
+
+    }
+}*/
+
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
     options.compilerArgs.add(preview)
