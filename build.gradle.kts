@@ -37,11 +37,16 @@ tasks.withType<JavaExec> {
     jvmArgs = mutableListOf(preview)
 }
 
-/*graalvmNative {
+// passing --enable-preview to native compiler
+// https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html
+// https://stackoverflow.com/questions/73983474/adding-option-enable-https-to-graalvm-gradle-nativecompile-task
+graalvmNative {
     binaries {
-
+        named("main") {
+            buildArgs.add(preview)
+        }
     }
-}*/
+}
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
