@@ -41,7 +41,10 @@ class PeopleController {
 
     @QueryMapping
     fun people(): List<Person> {
-        println("Is Virtual Thread: ${Thread.currentThread().isVirtual} | ${Thread.currentThread()}")
+        val first = Thread.currentThread()
+        Thread.sleep(1000)
+        println("$first | ${Thread.currentThread()}")
+
         return listOf(
             Person("jdgahjdagdahjdg", "Jon", 25),
             Person("ddgahjdagdahjdg", "Snow", 26),
